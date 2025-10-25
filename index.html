@@ -330,7 +330,7 @@
                 <h2>⚙️ API Configuration</h2>
                 <div class="form-group">
                     <label for="apiUrl">API Base URL:</label>
-                    <input type="url" id="apiUrl" placeholder="https://doc-pepper-rag-backend-production.up.railway.app" value="">
+                    <input type="url" id="apiUrl" placeholder="https://your-railway-app.railway.app" value="">
                 </div>
                 <button class="btn btn-secondary" onclick="saveSettings()">💾 Save Settings</button>
                 <button class="btn btn-secondary" onclick="loadDocuments()">🔄 Refresh Documents</button>
@@ -374,6 +374,17 @@
                         <p>No documents yet. Upload your first PDF to get started!</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Query Test Card -->
+            <div class="card">
+                <h2>🔍 Test Query</h2>
+                <div class="form-group">
+                    <label for="testQuestion">Ask a question:</label>
+                    <input type="text" id="testQuestion" placeholder="e.g., What is the document about?" onkeypress="handleQueryKeyPress(event)">
+                </div>
+                <button class="btn btn-primary" onclick="testQuery()">🔍 Search</button>
+                <div id="queryResults" style="margin-top: 20px;"></div>
             </div>
         </div>
     </div>
@@ -447,16 +458,44 @@
         }
 
         function saveSettings() {
-            apiBaseUrl = document.getElementById('apiUrl').value.trim();
-            if (!apiBaseUrl) {
+            let url = document.getElementById('apiUrl').value.trim();
+            if (!url) {
                 showStatus('error', 'Please enter a valid API URL');
                 return;
             }
+            
+            // Auto-add https if missing
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            
             // Remove trailing slash if present
-            apiBaseUrl = apiBaseUrl.replace(/\/$/, '');
+            apiBaseUrl = url.replace(/\/$/, '');
+            
             localStorage.setItem('kbApiUrl', apiBaseUrl);
-            showStatus('success', 'Settings saved! You can now upload documents.');
-            loadDocuments();
+            document.getElementById('apiUrl').value = apiBaseUrl;
+            
+            showStatus('info', 'Testing connection...');
+            
+            // Test the connection
+            testConnection();
+        }
+
+        async function testConnection() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showStatus('success', `✅ Connected! ${data.total_documents || 0} documents found.`);
+                    loadDocuments();
+                } else {
+                    showStatus('error', '❌ Connection failed. Check your URL.');
+                }
+            } catch (error) {
+                showStatus('error', `❌ Cannot connect: ${error.message}. Make sure CORS is enabled on backend.`);
+                console.error('Connection test failed:', error);
+            }
         }
 
         function showStatus(type, message) {
@@ -537,17 +576,25 @@
                     body: formData
                 });
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    showStatus('success', `✅ ${data.message} - ${data.chunks} chunks created`);
-                    clearFile();
-                    loadDocuments();
-                } else {
-                    showStatus('error', `❌ Error: ${data.detail}`);
+                if (!response.ok) {
+                    const text = await response.text();
+                    let errorMsg;
+                    try {
+                        const data = JSON.parse(text);
+                        errorMsg = data.detail || 'Upload failed';
+                    } catch {
+                        errorMsg = `Server error (${response.status}): ${text.substring(0, 100)}`;
+                    }
+                    throw new Error(errorMsg);
                 }
+
+                const data = await response.json();
+                showStatus('success', `✅ ${data.message} - ${data.chunks} chunks created`);
+                clearFile();
+                loadDocuments();
             } catch (error) {
                 showStatus('error', `❌ Failed to upload: ${error.message}`);
+                console.error('Upload error:', error);
             } finally {
                 uploadBtn.disabled = false;
                 uploadBtn.innerHTML = '📤 Upload & Process';
@@ -561,6 +608,13 @@
 
             try {
                 const response = await fetch(`${apiBaseUrl}/documents`);
+                
+                if (!response.ok) {
+                    const text = await response.text();
+                    console.error('Response:', text);
+                    throw new Error(`Server error (${response.status})`);
+                }
+
                 const data = await response.json();
 
                 // Update stats
@@ -596,6 +650,7 @@
                 `).join('');
             } catch (error) {
                 showStatus('error', `Failed to load documents: ${error.message}`);
+                console.error('Load documents error:', error);
             }
         }
 
@@ -604,12 +659,21 @@
                 return;
             }
 
+            console.log('🗑️ Deleting document:', docId);
+
             try {
-                const response = await fetch(`${apiBaseUrl}/documents/${encodeURIComponent(docId)}`, {
+                showStatus('info', '🗑️ Deleting document...');
+                
+                const url = `${apiBaseUrl}/documents/${encodeURIComponent(docId)}`;
+                console.log('DELETE request to:', url);
+                
+                const response = await fetch(url, {
                     method: 'DELETE'
                 });
 
+                console.log('Response status:', response.status);
                 const data = await response.json();
+                console.log('Response data:', data);
 
                 if (response.ok) {
                     showStatus('success', `✅ ${data.message} - ${data.chunks_removed} chunks removed`);
@@ -618,7 +682,74 @@
                     showStatus('error', `❌ Error: ${data.detail}`);
                 }
             } catch (error) {
+                console.error('Delete error:', error);
                 showStatus('error', `❌ Failed to delete: ${error.message}`);
+            }
+        }
+
+        function handleQueryKeyPress(event) {
+            if (event.key === 'Enter') {
+                testQuery();
+            }
+        }
+
+        async function testQuery() {
+            const question = document.getElementById('testQuestion').value.trim();
+            
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+
+            if (!apiBaseUrl) {
+                alert('Please configure API URL first');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('queryResults');
+            resultsDiv.innerHTML = '<p style="color: #666;">🔍 Searching...</p>';
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/query`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        top_k: 3
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.results.length === 0) {
+                        resultsDiv.innerHTML = '<p style="color: #666;">No results found. Make sure you have uploaded documents.</p>';
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <h3 style="margin-bottom: 15px;">Found ${data.count} results:</h3>
+                            ${data.results.map((result, i) => `
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                    <div style="font-weight: 600; color: #333; margin-bottom: 5px;">
+                                        ${i + 1}. ${result.filename} (Chunk ${result.chunk_id})
+                                    </div>
+                                    <div style="font-size: 0.9rem; color: #666; margin-bottom: 8px;">
+                                        Similarity: ${(result.similarity * 100).toFixed(1)}%
+                                    </div>
+                                    <div style="color: #333; font-size: 0.95rem; line-height: 1.5;">
+                                        ${result.text.substring(0, 300)}${result.text.length > 300 ? '...' : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        `;
+                    }
+                } else {
+                    resultsDiv.innerHTML = `<p style="color: #dc3545;">❌ Error: ${data.detail}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: #dc3545;">❌ Failed to query: ${error.message}</p>`;
+                console.error('Query error:', error);
             }
         }
     </script>
