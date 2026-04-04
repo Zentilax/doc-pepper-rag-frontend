@@ -65,7 +65,7 @@
     z-index: 0;
   }
 
-  /* ── LOGIN ── */
+  /* LOGIN */
   #loginScreen {
     position: relative;
     z-index: 1;
@@ -135,7 +135,7 @@
   .input-wrap input::placeholder { color: var(--muted); }
   .input-wrap input:focus { border-color: var(--accent); }
 
-  /* ── MAIN APP ── */
+  /* MAIN APP */
   #mainApp {
     position: relative;
     z-index: 1;
@@ -144,7 +144,6 @@
     padding: 40px 24px 80px;
   }
 
-  /* Top bar */
   .topbar {
     display: flex;
     align-items: center;
@@ -153,11 +152,7 @@
     animation: fadeUp 0.4s ease both;
   }
 
-  .topbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .topbar-brand { display: flex; align-items: center; gap: 12px; }
 
   .brand-icon {
     width: 40px;
@@ -187,7 +182,6 @@
     margin-top: 1px;
   }
 
-  /* Stats */
   .stats-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -228,13 +222,8 @@
     margin-bottom: 2px;
   }
 
-  .stat-lbl {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 300;
-  }
+  .stat-lbl { font-size: 12px; color: var(--muted); font-weight: 300; }
 
-  /* Cards */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -243,11 +232,6 @@
     margin-bottom: 20px;
     animation: fadeUp 0.4s ease both;
   }
-
-  .card:nth-child(1) { animation-delay: 0.1s; }
-  .card:nth-child(2) { animation-delay: 0.15s; }
-  .card:nth-child(3) { animation-delay: 0.2s; }
-  .card:nth-child(4) { animation-delay: 0.25s; }
 
   .card-header {
     display: flex;
@@ -266,7 +250,6 @@
     gap: 8px;
   }
 
-  /* Upload zone */
   .upload-zone {
     border: 2px dashed rgba(255,255,255,0.1);
     border-radius: 12px;
@@ -282,13 +265,7 @@
   }
 
   .upload-zone input[type="file"] { display: none; }
-
-  .upload-icon-big {
-    font-size: 36px;
-    margin-bottom: 12px;
-    display: block;
-  }
-
+  .upload-icon-big { font-size: 36px; margin-bottom: 12px; display: block; }
   .upload-zone p { color: var(--muted2); font-size: 14px; line-height: 1.6; }
   .upload-zone strong { color: var(--text); }
 
@@ -313,7 +290,6 @@
     white-space: nowrap;
   }
 
-  /* Buttons */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -327,33 +303,24 @@
     cursor: pointer;
     transition: all 0.18s;
     white-space: nowrap;
+    text-decoration: none;
   }
 
-  .btn-primary {
-    background: var(--accent);
-    color: #0a0c10;
-    font-weight: 600;
-  }
+  .btn-primary { background: var(--accent); color: #0a0c10; font-weight: 600; }
   .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
   .btn-primary:disabled { background: var(--surface3); color: var(--muted); cursor: not-allowed; transform: none; filter: none; }
 
-  .btn-ghost {
-    background: var(--surface2);
-    color: var(--muted2);
-    border: 1px solid var(--border);
-  }
+  .btn-ghost { background: var(--surface2); color: var(--muted2); border: 1px solid var(--border); }
   .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
 
-  .btn-danger {
-    background: var(--danger-bg);
-    color: var(--danger);
-    border: 1px solid rgba(255,107,107,0.15);
-  }
+  .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,107,107,0.15); }
   .btn-danger:hover { background: rgba(255,107,107,0.18); }
+
+  .btn-cyan { background: rgba(90,240,232,0.1); color: var(--accent2); border: 1px solid rgba(90,240,232,0.15); }
+  .btn-cyan:hover { background: rgba(90,240,232,0.18); }
 
   .btn-sm { padding: 7px 14px; font-size: 12px; border-radius: 7px; }
 
-  /* Status messages */
   .status-msg {
     padding: 12px 16px;
     border-radius: 9px;
@@ -367,7 +334,6 @@
   .status-msg.error   { background: var(--danger-bg);  color: var(--danger);  border: 1px solid rgba(255,107,107,0.2); display: flex; }
   .status-msg.info    { background: var(--info-bg);    color: var(--info);    border: 1px solid rgba(96,165,250,0.2);  display: flex; }
 
-  /* Document list */
   .doc-item {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -404,24 +370,71 @@
     white-space: nowrap;
   }
 
-  .doc-meta {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.03em;
-  }
+  .doc-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.03em; }
 
-  /* Empty state */
-  .empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-  }
+  .doc-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
   .empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
   .empty p { font-size: 14px; }
 
-  /* Query results */
+  /* Tab bar */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 16px;
+  }
+
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 9px 12px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--muted);
+    transition: background 0.2s, color 0.2s;
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tab.active { background: var(--surface3); color: var(--text); }
+
+  /* Answer */
+  .answer-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+  }
+
+  .answer-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .answer-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+
+  .sources-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
   .result-card {
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -437,11 +450,7 @@
     margin-bottom: 8px;
   }
 
-  .result-filename {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--accent2);
-  }
+  .result-filename { font-size: 13px; font-weight: 500; color: var(--accent2); }
 
   .result-sim {
     font-family: 'DM Mono', monospace;
@@ -452,17 +461,9 @@
     border-radius: 5px;
   }
 
-  .result-text {
-    font-size: 13px;
-    color: var(--muted2);
-    line-height: 1.6;
-  }
+  .result-text { font-size: 13px; color: var(--muted2); line-height: 1.6; }
 
-  /* Search input */
-  .search-wrap {
-    display: flex;
-    gap: 10px;
-  }
+  .search-wrap { display: flex; gap: 10px; }
 
   .search-wrap input {
     flex: 1;
@@ -479,7 +480,6 @@
   .search-wrap input::placeholder { color: var(--muted); }
   .search-wrap input:focus { border-color: var(--accent); }
 
-  /* Logout */
   .btn-logout {
     background: var(--surface2);
     color: var(--muted2);
@@ -496,7 +496,6 @@
   }
   .btn-logout:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
 
-  /* Chunk badge */
   .chunk-badge {
     display: inline-block;
     background: rgba(167,139,250,0.12);
@@ -518,21 +517,26 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   .spinner {
     display: inline-block;
-    width: 13px;
-    height: 13px;
+    width: 13px; height: 13px;
     border: 2px solid rgba(10,12,16,0.3);
     border-top-color: #0a0c10;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
   }
 
-  /* Loading skeleton */
+  .spinner-muted {
+    display: inline-block;
+    width: 13px; height: 13px;
+    border: 2px solid var(--surface3);
+    border-top-color: var(--muted);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
   .skeleton {
     background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
     background-size: 200% 100%;
@@ -551,12 +555,13 @@
     .stats-row { grid-template-columns: 1fr; }
     .search-wrap { flex-direction: column; }
     .card { padding: 20px; }
+    .doc-actions { flex-direction: column; gap: 6px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ══════════ LOGIN ══════════ -->
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">📚</div>
@@ -570,7 +575,7 @@
   </div>
 </div>
 
-<!-- ══════════ MAIN APP ══════════ -->
+<!-- MAIN APP -->
 <div id="mainApp" class="hidden">
 <div style="max-width:780px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1;">
 
@@ -583,9 +588,7 @@
         <div class="brand-sub">PDF DOCUMENT STORE</div>
       </div>
     </div>
-    <button class="btn-logout" onclick="logout()">
-      <span>↩</span> Logout
-    </button>
+    <button class="btn-logout" onclick="logout()"><span>↩</span> Logout</button>
   </div>
 
   <!-- Stats -->
@@ -639,14 +642,18 @@
     </div>
   </div>
 
-  <!-- Query Test Card -->
+  <!-- Ask / Query Card -->
   <div class="card" style="animation-delay:0.2s">
     <div class="card-header">
-      <div class="card-title">🔍 Test Query</div>
+      <div class="card-title">🤖 Ask the Knowledge Base</div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab active" id="tabAsk" onclick="switchTab('ask')">✦ AI Answer</button>
+      <button class="tab" id="tabQuery" onclick="switchTab('query')">⊞ Raw Chunks</button>
     </div>
     <div class="search-wrap">
-      <input type="text" id="testQuestion" placeholder="Ask a question to search the knowledge base…" onkeypress="if(event.key==='Enter')testQuery()"/>
-      <button class="btn btn-primary" onclick="testQuery()">Search</button>
+      <input type="text" id="testQuestion" placeholder="Ask a question about your documents…" onkeypress="if(event.key==='Enter')runQuery()"/>
+      <button class="btn btn-primary" id="queryBtn" onclick="runQuery()">Ask</button>
     </div>
     <div id="queryResults" style="margin-top:16px;"></div>
   </div>
@@ -658,6 +665,7 @@
   const API_BASE_URL = 'https://doc-pepper-rag-backend-production.up.railway.app';
   const CORRECT_PASSWORD = "ladoGARbos";
   let selectedFile = null;
+  let currentTab = 'ask';
   let isAuthenticated = sessionStorage.getItem('kbAuthenticated') === 'true';
 
   window.onload = function() {
@@ -779,7 +787,10 @@
             <div class="doc-name">${doc.filename}<span class="chunk-badge">${doc.chunks} chunks</span></div>
             <div class="doc-meta">ID: ${doc.doc_id}</div>
           </div>
-          <button class="btn btn-danger btn-sm" onclick="deleteDocument('${doc.doc_id}','${doc.filename.replace(/'/g,"\\'")}')">Delete</button>
+          <div class="doc-actions">
+            <a class="btn btn-cyan btn-sm" href="${API_BASE_URL}/documents/${encodeURIComponent(doc.doc_id)}/download" target="_blank" download>↓ Download</a>
+            <button class="btn btn-danger btn-sm" onclick="deleteDocument('${doc.doc_id}','${doc.filename.replace(/'/g,"\\'")}')">Delete</button>
+          </div>
         </div>
       `).join('');
     } catch (err) {
@@ -800,31 +811,74 @@
     }
   }
 
-  async function testQuery() {
+  function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tabAsk').classList.toggle('active', tab === 'ask');
+    document.getElementById('tabQuery').classList.toggle('active', tab === 'query');
+    document.getElementById('queryBtn').textContent = tab === 'ask' ? 'Ask' : 'Search';
+    document.getElementById('queryResults').innerHTML = '';
+  }
+
+  async function runQuery() {
     const q = document.getElementById('testQuestion').value.trim();
     if (!q) return;
     const res = document.getElementById('queryResults');
-    res.innerHTML = '<p style="color:var(--muted);font-size:13px;">Searching…</p>';
+    const btn = document.getElementById('queryBtn');
+    btn.disabled = true;
+    res.innerHTML = `<p style="color:var(--muted);font-size:13px;display:flex;align-items:center;gap:8px;"><span class="spinner-muted"></span> ${currentTab === 'ask' ? 'Generating answer…' : 'Searching…'}</p>`;
+
     try {
-      const r = await fetch(`${API_BASE_URL}/query`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: q, top_k: 3 })
-      });
-      const d = await r.json();
-      if (!r.ok) { res.innerHTML = `<p style="color:var(--danger);font-size:13px;">✕  ${d.detail}</p>`; return; }
-      if (!d.results.length) { res.innerHTML = '<p style="color:var(--muted);font-size:13px;">No results found. Try uploading more documents.</p>'; return; }
-      res.innerHTML = d.results.map((result, i) => `
-        <div class="result-card">
-          <div class="result-header">
-            <span class="result-filename">📄 ${result.filename} · chunk ${result.chunk_id}</span>
-            <span class="result-sim">${(result.similarity * 100).toFixed(1)}% match</span>
+      if (currentTab === 'ask') {
+        const r = await fetch(`${API_BASE_URL}/ask`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: q, top_k: 5 })
+        });
+        const d = await r.json();
+        if (!r.ok) { res.innerHTML = `<p style="color:var(--danger);font-size:13px;">✕  ${d.detail}</p>`; return; }
+
+        res.innerHTML = `
+          <div class="answer-card">
+            <div class="answer-label">✦ AI Answer · gpt-4.1-mini</div>
+            <div class="answer-text">${d.answer.replace(/\n/g, '<br>')}</div>
           </div>
-          <div class="result-text">${result.text.substring(0, 320)}${result.text.length > 320 ? '…' : ''}</div>
-        </div>
-      `).join('');
+          ${d.sources.length ? `
+            <div class="sources-label">⊞ Sources (${d.sources.length})</div>
+            ${d.sources.map(s => `
+              <div class="result-card">
+                <div class="result-header">
+                  <span class="result-filename">📄 ${s.filename} · chunk ${s.chunk_id}</span>
+                  <span class="result-sim">${(s.similarity * 100).toFixed(1)}% match</span>
+                </div>
+                <div class="result-text">${s.text.substring(0, 280)}${s.text.length > 280 ? '…' : ''}</div>
+              </div>
+            `).join('')}
+          ` : ''}
+        `;
+      } else {
+        const r = await fetch(`${API_BASE_URL}/query`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: q, top_k: 3 })
+        });
+        const d = await r.json();
+        if (!r.ok) { res.innerHTML = `<p style="color:var(--danger);font-size:13px;">✕  ${d.detail}</p>`; return; }
+        if (!d.results.length) { res.innerHTML = '<p style="color:var(--muted);font-size:13px;">No results found. Try uploading more documents.</p>'; return; }
+        res.innerHTML = d.results.map(result => `
+          <div class="result-card">
+            <div class="result-header">
+              <span class="result-filename">📄 ${result.filename} · chunk ${result.chunk_id}</span>
+              <span class="result-sim">${(result.similarity * 100).toFixed(1)}% match</span>
+            </div>
+            <div class="result-text">${result.text.substring(0, 320)}${result.text.length > 320 ? '…' : ''}</div>
+          </div>
+        `).join('');
+      }
     } catch (err) {
       res.innerHTML = `<p style="color:var(--danger);font-size:13px;">✕  ${err.message}</p>`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = currentTab === 'ask' ? 'Ask' : 'Search';
     }
   }
 </script>
